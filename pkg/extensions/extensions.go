@@ -26,6 +26,7 @@ type Extension struct {
 	// to be generated and served
 	ValidUntil  time.Time `json:"valid_until"`
 	URL         string    `json:"url"`
+	LocalURL    string    `json:"local_url"`
 	LatestURL   string    `json:"latest_url"`
 	DownloadURL string    `json:"download_url"`
 	LastStamp   time.Time `json:"last_stamp"`

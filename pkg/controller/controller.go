@@ -23,6 +23,7 @@ var (
 	validUntil       = time.Date(2030, 0, 0, 0, 0, 0, 0, time.Local)
 	snExtRepo        = "https://github.com/sn-extensions"
 	regexpPackgeHash = regexp.MustCompile(`\/[0-9a-f]+\/`)
+	snLocalBaseURL   = "sn://Extensions"
 
 	//go:embed web/*
 	webFS embed.FS
@@ -60,6 +61,9 @@ func (c *Controller) UpdateExtension(ext *extensions.Extension) error {
 	lastestURL, _ := url.Parse(c.BaseURL)
 	lastestURL.Path = path.Join(lastestURL.Path, ext.ID, "index.json")
 	ext.LatestURL = lastestURL.String()
+	localURL, _ := url.Parse(snLocalBaseURL)
+	localURL.Path = path.Join(localURL.Path, ext.ID, ext.Index)
+	ext.LocalURL = localURL.String()
 	return nil
 }
 
