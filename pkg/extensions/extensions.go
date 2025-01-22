@@ -34,6 +34,7 @@ type Extension struct {
 	// to be read from file and served
 	ID           string `json:"identifier"              yaml:"id"`
 	RepoURL      string `json:"repo_url"                yaml:"repo_url"`
+	Revision     string `json:"revision,omitempty"      yaml:"revision,omitempty"`
 	Index        string `json:"index"                   yaml:"index"`
 	Name         string `json:"name"                    yaml:"name"`
 	ContentType  string `json:"content_type"            yaml:"content_type"`

@@ -17,6 +17,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"go.senan.xyz/standardnotes-extensions/pkg/extensions"
+
+	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing"
 )
 
 var (
@@ -35,8 +38,13 @@ type Controller struct {
 }
 
 func (c *Controller) UpdateExtension(ext *extensions.Extension) error {
+	pullOpts := git.PullOptions{Force: true}
+	if ext.Revision != "" {
+		pullOpts.ReferenceName = plumbing.ReferenceName(ext.Revision)
+	}
+
 	repoPath := path.Join(c.ReposDir, ext.ID)
-	repo, err := RepoUpdate(repoPath, ext.RepoURL)
+	repo, err := RepoUpdate(repoPath, ext.RepoURL, &pullOpts)
 	if err != nil {
 		return fmt.Errorf("update repo: %w", err)
 	}

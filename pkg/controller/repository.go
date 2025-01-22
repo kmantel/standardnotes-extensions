@@ -9,7 +9,7 @@ import (
 	"github.com/go-git/go-git/v5"
 )
 
-func RepoUpdate(dir, url string) (*git.Repository, error) {
+func RepoUpdate(dir, url string, pull_opts *git.PullOptions) (*git.Repository, error) {
 	repo, err := git.PlainClone(dir, false, &git.CloneOptions{
 		URL: url,
 	})
@@ -28,7 +28,7 @@ func RepoUpdate(dir, url string) (*git.Repository, error) {
 	if err != nil {
 		return nil, fmt.Errorf("open worktree: %w", err)
 	}
-	err = worktree.Pull(&git.PullOptions{Force: true})
+	err = worktree.Pull(pull_opts)
 	if err == nil {
 		log.Printf("found new update: %q\n", url)
 		return repo, nil
