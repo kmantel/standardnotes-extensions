@@ -39,12 +39,14 @@ type Controller struct {
 
 func (c *Controller) UpdateExtension(ext *extensions.Extension) error {
 	pullOpts := git.PullOptions{Force: true}
+	repoUpdateOpts := RepoUpdateOptions{}
 	if ext.Revision != "" {
 		pullOpts.ReferenceName = plumbing.ReferenceName(ext.Revision)
+		repoUpdateOpts.Revision = ext.Revision
 	}
 
 	repoPath := path.Join(c.ReposDir, ext.ID)
-	repo, err := RepoUpdate(repoPath, ext.RepoURL, &pullOpts)
+	repo, err := RepoUpdate(repoPath, ext.RepoURL, &pullOpts, &repoUpdateOpts)
 	if err != nil {
 		return fmt.Errorf("update repo: %w", err)
 	}
